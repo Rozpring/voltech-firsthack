@@ -1,2 +1,16 @@
 #ユーザー情報のデータ構造を定義。
 #登録/ログイン機能
+
+from sqlalchemy import Column, Integer, String
+from app.db.base import Base
+from sqlalchemy.orm import relationship
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True, nullable=False)
+    hashed_password = Column(String, nullable=False)
+    
+    # リレーション定義
+    tasks = relationship("Task", back_populates="owner")
