@@ -48,21 +48,7 @@ class APIClient {
         const errorData = await response.json().catch(() => ({
           detail: `HTTP error! status: ${response.status}`,
         }));
-        // detailがオブジェクトや配列の場合は適切に文字列化する
-        let errorMessage = 'An error occurred';
-        if (errorData.detail) {
-          if (typeof errorData.detail === 'string') {
-            errorMessage = errorData.detail;
-          } else if (Array.isArray(errorData.detail)) {
-            // FastAPIのバリデーションエラー形式
-            errorMessage = errorData.detail
-              .map((e: { msg?: string; message?: string }) => e.msg || e.message || JSON.stringify(e))
-              .join(', ');
-          } else {
-            errorMessage = JSON.stringify(errorData.detail);
-          }
-        }
-        throw new Error(errorMessage);
+        throw new Error(errorData.detail || 'An error occurred');
       }
 
       // Handle 204 No Content
@@ -112,20 +98,7 @@ class APIClient {
         const errorData = await response.json().catch(() => ({
           detail: `HTTP error! status: ${response.status}`,
         }));
-        // detailがオブジェクトや配列の場合は適切に文字列化する
-        let errorMessage = 'An error occurred';
-        if (errorData.detail) {
-          if (typeof errorData.detail === 'string') {
-            errorMessage = errorData.detail;
-          } else if (Array.isArray(errorData.detail)) {
-            errorMessage = errorData.detail
-              .map((e: { msg?: string; message?: string }) => e.msg || e.message || JSON.stringify(e))
-              .join(', ');
-          } else {
-            errorMessage = JSON.stringify(errorData.detail);
-          }
-        }
-        throw new Error(errorMessage);
+        throw new Error(errorData.detail || 'An error occurred');
       }
 
       return await response.json();

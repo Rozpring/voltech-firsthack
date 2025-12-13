@@ -1,7 +1,6 @@
 import React from 'react';
 import { Check, Trash2, Clock, AlertCircle } from 'lucide-react';
 import type { Task } from '../../types';
-import { CategoryLabels, CategoryColors, type TaskCategory } from '../../types';
 
 interface TaskItemProps {
     task: Task;
@@ -44,8 +43,8 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete }) 
                 <button
                     onClick={() => onToggle(task.id, !task.is_completed)}
                     className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${task.is_completed
-                        ? 'bg-indigo-600 border-indigo-600 text-white'
-                        : 'border-slate-300 hover:border-indigo-400'
+                            ? 'bg-indigo-600 border-indigo-600 text-white'
+                            : 'border-slate-300 hover:border-indigo-400'
                         }`}
                 >
                     {task.is_completed && <Check className="w-4 h-4" />}
@@ -63,15 +62,6 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete }) 
                         <p className="mt-1 text-sm text-slate-500 truncate">{task.description}</p>
                     )}
                     <div className="mt-2 flex items-center gap-2 flex-wrap">
-                        {/* カテゴリバッジ */}
-                        {task.category && CategoryLabels[task.category as TaskCategory] && (
-                            <span
-                                className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${CategoryColors[task.category as TaskCategory]}`}
-                            >
-                                {CategoryLabels[task.category as TaskCategory]}
-                            </span>
-                        )}
-
                         {/* 優先度バッジ */}
                         <span
                             className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${priorityColors[task.priority as keyof typeof priorityColors] ||

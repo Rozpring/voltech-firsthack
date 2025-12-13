@@ -14,7 +14,6 @@ class Task(Base):
     description = Column(String)
     is_completed = Column(Boolean, default=False)
     priority = Column(String, default="medium") # low, medium, highなど
-    category = Column(String)  # housework, work, studyなど
     deadline = Column(DateTime)
     created_at = Column(DateTime, default=func.now())
     
