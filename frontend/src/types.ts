@@ -5,6 +5,26 @@ export const TaskPriority = {
 } as const;
 export type TaskPriority = typeof TaskPriority[keyof typeof TaskPriority];
 
+// カテゴリ定義
+export const TaskCategory = {
+  HOUSEWORK: 'housework',
+  WORK: 'work',
+  STUDY: 'study',
+} as const;
+export type TaskCategory = typeof TaskCategory[keyof typeof TaskCategory];
+
+export const CategoryLabels: Record<TaskCategory, string> = {
+  housework: '🏠 家事',
+  work: '💼 仕事',
+  study: '📚 勉強',
+};
+
+export const CategoryColors: Record<TaskCategory, string> = {
+  housework: 'bg-pink-100 text-pink-700 border-pink-200',
+  work: 'bg-blue-100 text-blue-700 border-blue-200',
+  study: 'bg-purple-100 text-purple-700 border-purple-200',
+};
+
 // Task interface matching backend schema
 export interface Task {
   id: number;
@@ -12,6 +32,7 @@ export interface Task {
   description?: string;
   is_completed: boolean;
   priority: string; // "low" | "medium" | "high"
+  category?: string; // "housework" | "work" | "study"
   deadline?: string; // ISO datetime string
   created_at: string;
   owner_id: number;
@@ -22,14 +43,3 @@ export interface User {
   id: number;
   username: string;
 }
-
-// Legacy types for backward compatibility (can be removed later)
-export const TaskStatus = {
-  TODO: 'TODO',
-  IN_PROGRESS: 'IN_PROGRESS',
-  DONE: 'DONE',
-} as const;
-export type TaskStatus = typeof TaskStatus[keyof typeof TaskStatus];
-
-export type Category = 'PERSONAL' | 'WORK' | 'SHOPPING' | 'HEALTH' | 'FINANCE';
-

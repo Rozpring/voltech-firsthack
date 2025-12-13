@@ -77,6 +77,7 @@ const taskResponseToTask = (response: TaskResponse): Task => ({
     description: response.description,
     is_completed: response.is_completed,
     priority: response.priority,
+    category: response.category,
     deadline: response.deadline,
     created_at: response.created_at,
     owner_id: response.owner_id,

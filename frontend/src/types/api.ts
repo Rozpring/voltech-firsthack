@@ -25,6 +25,7 @@ export interface TaskCreateRequest {
     description?: string;
     deadline?: string; // ISO datetime string
     priority?: string; // "low" | "medium" | "high"
+    category?: string; // "housework" | "work" | "study"
     category_id?: number;
 }
 
@@ -33,6 +34,7 @@ export interface TaskUpdateRequest {
     description?: string;
     deadline?: string;
     priority?: string;
+    category?: string;
     is_completed?: boolean;
     category_id?: number | null;
 }
@@ -43,6 +45,7 @@ export interface TaskResponse {
     description?: string;
     is_completed: boolean;
     priority: string;
+    category?: string;
     deadline?: string;
     created_at: string;
     owner_id: number;

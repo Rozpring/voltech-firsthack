@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { Button } from '../common/Button';
 import type { TaskCreateRequest } from '../../types/api';
+import { TaskCategory, CategoryLabels } from '../../types';
 
 interface TaskFormProps {
     onSubmit: (taskData: TaskCreateRequest) => Promise<void>;
@@ -12,6 +13,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onSubmit }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [priority, setPriority] = useState<string>('medium');
+    const [category, setCategory] = useState<string>('');
     const [deadline, setDeadline] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
@@ -25,12 +27,14 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onSubmit }) => {
                 title: title.trim(),
                 description: description.trim() || undefined,
                 priority,
+                category: category || undefined,
                 deadline: deadline || undefined,
             });
             // フォームをリセット
             setTitle('');
             setDescription('');
             setPriority('medium');
+            setCategory('');
             setDeadline('');
             setIsExpanded(false);
         } catch (error) {
@@ -78,8 +82,23 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onSubmit }) => {
                     />
                 </div>
 
-                {/* 優先度と期限 */}
+                {/* カテゴリと優先度 */}
                 <div className="flex gap-4">
+                    <div className="flex-1">
+                        <label className="block text-sm font-medium text-slate-700 mb-1">
+                            カテゴリ
+                        </label>
+                        <select
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                            className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        >
+                            <option value="">未選択</option>
+                            <option value={TaskCategory.HOUSEWORK}>{CategoryLabels.housework}</option>
+                            <option value={TaskCategory.WORK}>{CategoryLabels.work}</option>
+                            <option value={TaskCategory.STUDY}>{CategoryLabels.study}</option>
+                        </select>
+                    </div>
                     <div className="flex-1">
                         <label className="block text-sm font-medium text-slate-700 mb-1">
                             優先度
@@ -94,17 +113,19 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onSubmit }) => {
                             <option value="high">高</option>
                         </select>
                     </div>
-                    <div className="flex-1">
-                        <label className="block text-sm font-medium text-slate-700 mb-1">
-                            期限
-                        </label>
-                        <input
-                            type="datetime-local"
-                            value={deadline}
-                            onChange={(e) => setDeadline(e.target.value)}
-                            className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        />
-                    </div>
+                </div>
+
+                {/* 期限 */}
+                <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
+                        期限
+                    </label>
+                    <input
+                        type="datetime-local"
+                        value={deadline}
+                        onChange={(e) => setDeadline(e.target.value)}
+                        className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
                 </div>
 
                 {/* ボタン */}
@@ -116,6 +137,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onSubmit }) => {
                             setIsExpanded(false);
                             setTitle('');
                             setDescription('');
+                            setCategory('');
                         }}
                     >
                         キャンセル

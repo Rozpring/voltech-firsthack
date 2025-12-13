@@ -8,12 +8,19 @@ class TaskBase(BaseModel):
     description: str | None = None
     deadline: datetime | None = None
     priority: str = "medium"
-    # category_id: int | None = None
+    category: str | None = None
+    category_id: int | None = None
 
 class TaskCreate(TaskBase):
     pass
 
-class TaskUpdate(TaskBase):
+class TaskUpdate(BaseModel):
+    title: str | None = None
+    description: str | None = None
+    deadline: datetime | None = None
+    priority: str | None = None
+    category: str | None = None
+    category_id: int | None = None
     is_completed: bool | None = None
 
 class TaskResponse(TaskBase):
