@@ -29,6 +29,6 @@ app.add_middleware(
 def read_root():
     return {"message": "FastAPI Backend is running! (TaskMaster)"}
 
-# TODO: 今後、タスク関連のルーターをここにインクルードする
-# from .api.v1.api import router
-# app.include_router(router, prefix="/api/v1")
+# APIルーターをインクルード
+from app.api.v1.api import api_router
+app.include_router(api_router, prefix="/api/v1")
