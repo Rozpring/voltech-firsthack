@@ -1,12 +1,13 @@
 // メインのタスク一覧画面
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useTasks } from '../context/TaskContext';
 import { useAuth } from '../context/AuthContext';
 import { TaskList } from '../components/tasks/TaskList';
 import { TaskForm } from '../components/tasks/TaskForm';
 import { MoodIndicator } from '../components/common/MoodIndicator';
-import { LogOut, CheckSquare } from 'lucide-react';
+import { LogOut, CheckSquare, User } from 'lucide-react';
 import { Button } from '../components/common/Button';
 
 export const Dashboard: React.FC = () => {
@@ -20,12 +21,16 @@ export const Dashboard: React.FC = () => {
                 <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <CheckSquare className="w-6 h-6 text-indigo-600" />
-                        <h1 className="text-xl font-bold text-slate-900">TaskMaster</h1>
+                        <h2 className="text-xl font-bold text-slate-900">ToきょうでぃずにーらんDo</h2>
                     </div>
                     <div className="flex items-center gap-4">
-                        <span className="text-sm text-slate-600">
+                        <Link
+                            to="/profile"
+                            className="flex items-center gap-2 text-sm text-slate-600 hover:text-indigo-600 transition-colors"
+                        >
+                            <User className="w-4 h-4" />
                             {user?.username}
-                        </span>
+                        </Link>
                         <Button variant="ghost" size="sm" onClick={logout}>
                             <LogOut className="w-4 h-4 mr-1" />
                             ログアウト
