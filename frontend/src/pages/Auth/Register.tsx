@@ -2,7 +2,17 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/common/Button';
-import { CheckSquare } from 'lucide-react';
+import LogoSource from '../../assets/ミッキー.jpg';
+//import { CheckSquare } from 'lucide-react';
+
+const LogoImage: React.FC = () => (
+  <img 
+    src={LogoSource}
+    alt="アプリケーションロゴ" 
+    className="h-40 w-auto" 
+  />
+);
+
 
 export const Register: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -41,8 +51,8 @@ export const Register: React.FC = () => {
     return (
         <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                <div className="flex justify-center text-indigo-600">
-                    <CheckSquare className="h-12 w-12" />
+                <div className="flex justify-center">
+                    <LogoImage /> 
                 </div>
                 <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-slate-900">
                     新規登録

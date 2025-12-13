@@ -2,7 +2,16 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/common/Button';
-import { CheckSquare } from 'lucide-react';
+import LogoSource from '../../assets/ミッキー.jpg';
+//import { CheckSquare } from 'lucide-react';
+
+const LogoImage: React.FC = () => (
+  <img 
+    src={LogoSource}
+    alt="アプリケーションロゴ" 
+    className="h-40 w-auto" 
+  />
+);
 
 export const Login: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -29,8 +38,8 @@ export const Login: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center text-indigo-600">
-          <CheckSquare className="h-12 w-12" />
+        <div className="flex justify-center">
+          <LogoImage /> 
         </div>
         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-slate-900">
           ログイン
@@ -71,12 +80,13 @@ export const Login: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  placeholder="パスワードを入力"
                 />
               </div>
             </div>
 
             <div>
-              <Button type="submit" className="w-full" isLoading={loading}>
+              <Button type="submit" className="w-full" isLoading={loading} variant="primary">
                 ログイン
               </Button>
             </div>
