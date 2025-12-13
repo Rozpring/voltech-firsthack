@@ -13,8 +13,11 @@ class Task(Base):
     title = Column(String, index=True, nullable=False)
     description = Column(String)
     is_completed = Column(Boolean, default=False)
-    priority = Column(String, default="medium") # low, medium, highなど
-    deadline = Column(DateTime)
+    priority = Column(Integer, default=2)          # 1:低, 2:中, 3:高
+    deadline = Column(DateTime, nullable=True)     # 期限
+    
+    location_id = Column(Integer, ForeignKey("locations.id"), nullable=True)
+    location = relationship("Location", back_populates="tasks")
     created_at = Column(DateTime, default=func.now())
     
     # ユーザーとの関連付け
