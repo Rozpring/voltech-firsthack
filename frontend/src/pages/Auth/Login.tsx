@@ -1,25 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/common/Button';
 import LogoSource from '../../assets/ミッキー.jpg';
 //import { CheckSquare } from 'lucide-react';
 
+const REMEMBER_KEY = 'tdl_remember_credentials';
+
 const LogoImage: React.FC = () => (
-  <img 
+  <img
     src={LogoSource}
-    alt="アプリケーションロゴ" 
-    className="h-40 w-auto" 
+    alt="アプリケーションロゴ"
+    className="h-40 w-auto"
   />
 );
 
 export const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  // ページ読み込み時に保存された認証情報を読み込む
+  useEffect(() => {
+    const saved = localStorage.getItem(REMEMBER_KEY);
+    if (saved) {
+      try {
+        const { username: savedUsername, password: savedPassword } = JSON.parse(saved);
+        setUsername(savedUsername || '');
+        setPassword(savedPassword || '');
+        setRememberMe(true);
+      } catch (e) {
+        localStorage.removeItem(REMEMBER_KEY);
+      }
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,6 +45,14 @@ export const Login: React.FC = () => {
     setError('');
     try {
       await login(username, password);
+
+      // ログイン成功時に記憶設定を保存または削除
+      if (rememberMe) {
+        localStorage.setItem(REMEMBER_KEY, JSON.stringify({ username, password }));
+      } else {
+        localStorage.removeItem(REMEMBER_KEY);
+      }
+
       navigate('/');
     } catch (err: any) {
       setError(err.message || 'ログインに失敗しました');
@@ -39,7 +65,7 @@ export const Login: React.FC = () => {
     <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
-          <LogoImage /> 
+          <LogoImage />
         </div>
         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-slate-900">
           ログイン
@@ -83,6 +109,20 @@ export const Login: React.FC = () => {
                   placeholder="パスワードを入力"
                 />
               </div>
+            </div>
+
+            {/* ログイン情報を記憶するチェックボックス */}
+            <div className="flex items-center">
+              <input
+                id="remember-me"
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+              />
+              <label htmlFor="remember-me" className="ml-2 block text-sm text-slate-700">
+                ログイン情報を記憶する
+              </label>
             </div>
 
             <div>
