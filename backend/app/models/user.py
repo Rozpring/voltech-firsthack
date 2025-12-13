@@ -15,4 +15,4 @@ class User(Base):
     # リレーション定義
     tasks = relationship("Task", back_populates="owner")
     categories = relationship("Category", back_populates="owner")
-
+    locations = relationship("Location", back_populates="owner")
