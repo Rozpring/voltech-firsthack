@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlmodel import Session, select # SQLModel用に変更
+from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Any
 
 from app.db.session import get_db
 from app.schemas.user import UserCreate, UserResponse
-from app.schemas.token import Token # さっき作ったTokenスキーマ
+from app.schemas.token import Token
 from app.models.user import User
 from app.core.security import get_password_hash, create_access_token, verify_password, get_current_user
 
@@ -14,9 +14,8 @@ router = APIRouter()
 # ユーザー登録
 @router.post("/", response_model=UserResponse)
 def register_user(*, db: Session = Depends(get_db), user_in: UserCreate):
-    # SQLModelスタイルの検索に変更
-    statement = select(User).where(User.username == user_in.username)
-    db_user = db.exec(statement).first()
+    # SQLAlchemyスタイルの検索
+    db_user = db.query(User).filter(User.username == user_in.username).first()
     
     if db_user:
         raise HTTPException(status_code=400, detail="Username already registered")
@@ -27,7 +26,6 @@ def register_user(*, db: Session = Depends(get_db), user_in: UserCreate):
     new_user = User(
         username=user_in.username,
         hashed_password=hashed_password,
-        receive_reminders=True # デフォルト設定
     )
     db.add(new_user)
     db.commit()
@@ -39,9 +37,8 @@ def register_user(*, db: Session = Depends(get_db), user_in: UserCreate):
 def login_for_access_token(
     form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
 ):
-    # SQLModelスタイルの検索
-    statement = select(User).where(User.username == form_data.username)
-    user = db.exec(statement).first()
+    # SQLAlchemyスタイルの検索
+    user = db.query(User).filter(User.username == form_data.username).first()
     
     # ユーザーがいない or パスワード違い
     if not user or not verify_password(form_data.password, user.hashed_password):
