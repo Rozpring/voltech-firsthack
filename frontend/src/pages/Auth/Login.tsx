@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/common/Button';
+import { CustomPasswordInput } from '../../components/common/CustomPasswordInput';
 import LogoSource from '../../assets/ミッキー.jpg';
 import BackgroundImage from '../../assets/login-background.png';
 //import { CheckSquare } from 'lucide-react';
@@ -12,7 +13,7 @@ const LogoImage: React.FC = () => (
   <img
     src={LogoSource}
     alt="アプリケーションロゴ"
-    className="h-40 w-auto"
+    className="h-64 w-auto"
   />
 );
 
@@ -109,12 +110,11 @@ export const Login: React.FC = () => {
             <div>
               <label className="block text-sm font-medium text-slate-700">パスワード</label>
               <div className="mt-1">
-                <input
-                  type="password"
+                <CustomPasswordInput
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  className="bg-white shadow-sm sm:text-sm"
                   placeholder="パスワードを入力"
                 />
               </div>
