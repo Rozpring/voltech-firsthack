@@ -7,6 +7,7 @@ import { Register } from './pages/Auth/Register';
 import { Dashboard } from './pages/Dashboard';
 import { Profile } from './pages/Profile';
 import { CategoriesPage } from './pages/CategoriesPage';
+import { LocationsPage } from './pages/LocationsPage';
 import { Loader2 } from 'lucide-react';
 
 // 認証が必要なルートを保護するコンポーネント
@@ -99,6 +100,14 @@ const AppRoutes: React.FC = () => {
         element={
           <ProtectedRoute>
             <Profile />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/locations"
+        element={
+          <ProtectedRoute>
+            <LocationsPage />
           </ProtectedRoute>
         }
       />

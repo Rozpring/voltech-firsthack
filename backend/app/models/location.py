@@ -9,6 +9,11 @@ class Location(Base):
     name = Column(String, index=True)  # "自宅", "学校" など
     latitude = Column(Float)           # 緯度
     longitude = Column(Float)          # 経度
+    radius = Column(Float, default=500.0)  # エリア半径（メートル）
+    
+    # カテゴリとの関連付け（この場所に紐づくカテゴリ）
+    category_id = Column(Integer, ForeignKey("categories.id"), nullable=True)
+    category = relationship("Category")
     
     # ユーザーとの関係
     owner_id = Column(Integer, ForeignKey("users.id"))

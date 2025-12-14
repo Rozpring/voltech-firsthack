@@ -12,7 +12,7 @@ load_dotenv()
 
 # DBモデルのインポート
 from app.db.base import Base
-from app.models import user, task, category
+from app.models import user, task, category, location
 from app.core.config import settings
 
 @asynccontextmanager
@@ -36,6 +36,7 @@ app = FastAPI(title="TaskMaster-Backend", lifespan=lifespan)
 origins = [
     os.getenv("FRONTEND_URL", "http://localhost:5173"),
     "http://localhost:3000",
+    "http://localhost:5174",
 ]
 
 app.add_middleware(

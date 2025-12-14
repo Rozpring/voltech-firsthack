@@ -70,3 +70,35 @@ export interface CategoryResponse {
 export interface APIError {
     detail: string;
 }
+
+// Location types
+export interface LocationCreateRequest {
+    name: string;
+    latitude: number;
+    longitude: number;
+    radius?: number;
+    category_id?: number | null;
+}
+
+export interface LocationUpdateRequest {
+    name?: string;
+    latitude?: number;
+    longitude?: number;
+    radius?: number;
+    category_id?: number | null;
+}
+
+export interface LocationResponse {
+    id: number;
+    name: string;
+    latitude: number;
+    longitude: number;
+    radius: number;
+    category_id?: number | null;
+    owner_id: number;
+}
+
+export interface NearbyLocationResponse extends LocationResponse {
+    distance: number;  // 現在地からの距離（メートル）
+}
+
