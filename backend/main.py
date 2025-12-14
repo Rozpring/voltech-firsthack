@@ -47,6 +47,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ヘルスチェックエンドポイント (Render用)
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
+
 # ルートエンドポイント
 @app.get("/")
 def read_root():
