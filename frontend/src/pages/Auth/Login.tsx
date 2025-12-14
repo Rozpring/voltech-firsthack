@@ -4,17 +4,25 @@ import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/common/Button';
 import { CustomPasswordInput } from '../../components/common/CustomPasswordInput';
 import LogoSource from '../../assets/ミッキー.jpg';
+import LeftLogo from '../../assets/left-logo.png';
 import BackgroundImage from '../../assets/login-background.png';
 //import { CheckSquare } from 'lucide-react';
 
 const REMEMBER_KEY = 'tdl_remember_credentials';
 
 const LogoImage: React.FC = () => (
-  <img
-    src={LogoSource}
-    alt="アプリケーションロゴ"
-    className="h-64 w-auto"
-  />
+  <div className="flex items-center justify-start gap-1">
+    <img
+      src={LeftLogo}
+      alt="吹き出し"
+      className="h-80 w-auto"
+    />
+    <img
+      src={LogoSource}
+      alt="アプリケーションロゴ"
+      className="h-64 w-auto"
+    />
+  </div>
 );
 
 export const Login: React.FC = () => {
@@ -74,7 +82,7 @@ export const Login: React.FC = () => {
       }}
     >
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center">
+        <div className="flex justify-start ml-[-200px]">
           <LogoImage />
         </div>
         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-slate-900">
@@ -85,7 +93,7 @@ export const Login: React.FC = () => {
         </p>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+      <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (

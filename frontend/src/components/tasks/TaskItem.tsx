@@ -50,12 +50,16 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete, on
                 {/* チェックボックス */}
                 <button
                     onClick={() => onToggle(task.id, !task.is_completed)}
-                    className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${task.is_completed
-                        ? 'bg-indigo-600 border-indigo-600 text-white'
-                        : 'border-slate-300 hover:border-indigo-400'
+                    className={`flex-shrink-0 w-6 h-6 rounded border-2 flex items-center justify-center transition-all bg-white ${task.is_completed
+                        ? 'border-green-500'
+                        : 'border-slate-400 hover:border-indigo-500'
                         }`}
                 >
-                    {task.is_completed && <Check className="w-4 h-4" />}
+                    {task.is_completed && (
+                        <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                    )}
                 </button>
 
                 {/* タスク内容 */}
