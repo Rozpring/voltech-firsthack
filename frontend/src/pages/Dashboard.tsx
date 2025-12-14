@@ -16,7 +16,7 @@ import type { CategoryResponse, NearbyLocationResponse } from '../types/api';
 
 export const Dashboard: React.FC = () => {
     const { user, logout } = useAuth();
-    const { tasks, isLoading, error, createTask, toggleTaskCompletion, deleteTask } = useTasks();
+    const { tasks, isLoading, error, createTask, updateTask, toggleTaskCompletion, deleteTask } = useTasks();
     const [categories, setCategories] = useState<CategoryResponse[]>([]);
     const [nearbyLocation, setNearbyLocation] = useState<NearbyLocationResponse | null>(null);
     const [locationFilterActive, setLocationFilterActive] = useState(false);
@@ -218,6 +218,7 @@ export const Dashboard: React.FC = () => {
                         error={error}
                         onToggle={toggleTaskCompletion}
                         onDelete={deleteTask}
+                        onUpdate={updateTask}
                         categories={categories}
                     />
                 </div>

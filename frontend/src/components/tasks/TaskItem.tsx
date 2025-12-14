@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, Trash2, Clock, AlertCircle, Tag } from 'lucide-react';
+import { Check, Trash2, Clock, AlertCircle, Tag, Pencil } from 'lucide-react';
 import type { Task } from '../../types';
 import type { CategoryResponse } from '../../types/api';
 
@@ -7,10 +7,11 @@ interface TaskItemProps {
     task: Task;
     onToggle: (taskId: number, isCompleted: boolean) => void;
     onDelete: (taskId: number) => void;
+    onEdit: (task: Task) => void;
     categories?: CategoryResponse[];
 }
 
-export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete, categories = [] }) => {
+export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete, onEdit, categories = [] }) => {
     const isOverdue = task.deadline && !task.is_completed && new Date(task.deadline) < new Date();
 
     const priorityColors = {
@@ -110,13 +111,25 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete, ca
                     </div>
                 </div>
 
-                {/* 削除ボタン */}
-                <button
-                    onClick={() => onDelete(task.id)}
-                    className="flex-shrink-0 p-1 text-slate-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                    <Trash2 className="w-4 h-4" />
-                </button>
+                {/* アクションボタン */}
+                <div className="flex-shrink-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    {/* 編集ボタン */}
+                    <button
+                        onClick={() => onEdit(task)}
+                        className="p-1 text-slate-400 hover:text-indigo-600 transition-colors"
+                        title="編集"
+                    >
+                        <Pencil className="w-4 h-4" />
+                    </button>
+                    {/* 削除ボタン */}
+                    <button
+                        onClick={() => onDelete(task.id)}
+                        className="p-1 text-slate-400 hover:text-red-600 transition-colors"
+                        title="削除"
+                    >
+                        <Trash2 className="w-4 h-4" />
+                    </button>
+                </div>
             </div>
         </div>
     );

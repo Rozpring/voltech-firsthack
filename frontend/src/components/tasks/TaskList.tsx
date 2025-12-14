@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TaskItem } from './TaskItem';
+import { TaskEditModal } from './TaskEditModal';
 import type { Task } from '../../types';
-import type { CategoryResponse } from '../../types/api';
+import type { CategoryResponse, TaskUpdateRequest } from '../../types/api';
 import { Loader2, ListTodo } from 'lucide-react';
 
 interface TaskListProps {
@@ -10,6 +11,7 @@ interface TaskListProps {
     error: string | null;
     onToggle: (taskId: number, isCompleted: boolean) => void;
     onDelete: (taskId: number) => void;
+    onUpdate: (taskId: number, data: TaskUpdateRequest) => Promise<void>;
     categories?: CategoryResponse[];
 }
 
@@ -19,8 +21,11 @@ export const TaskList: React.FC<TaskListProps> = ({
     error,
     onToggle,
     onDelete,
+    onUpdate,
     categories = [],
 }) => {
+    const [editingTask, setEditingTask] = useState<Task | null>(null);
+
     if (isLoading) {
         return (
             <div className="flex items-center justify-center py-12">
@@ -52,47 +57,69 @@ export const TaskList: React.FC<TaskListProps> = ({
     const incompleteTasks = tasks.filter((t) => !t.is_completed);
     const completedTasks = tasks.filter((t) => t.is_completed);
 
-    return (
-        <div className="space-y-6">
-            {/* 未完了タスク */}
-            {incompleteTasks.length > 0 && (
-                <div>
-                    <h2 className="text-sm font-medium text-slate-500 mb-3">
-                        未完了 ({incompleteTasks.length})
-                    </h2>
-                    <div className="space-y-2">
-                        {incompleteTasks.map((task) => (
-                            <TaskItem
-                                key={task.id}
-                                task={task}
-                                onToggle={onToggle}
-                                onDelete={onDelete}
-                                categories={categories}
-                            />
-                        ))}
-                    </div>
-                </div>
-            )}
+    const handleEdit = (task: Task) => {
+        setEditingTask(task);
+    };
 
-            {/* 完了タスク */}
-            {completedTasks.length > 0 && (
-                <div>
-                    <h2 className="text-sm font-medium text-slate-500 mb-3">
-                        完了 ({completedTasks.length})
-                    </h2>
-                    <div className="space-y-2">
-                        {completedTasks.map((task) => (
-                            <TaskItem
-                                key={task.id}
-                                task={task}
-                                onToggle={onToggle}
-                                onDelete={onDelete}
-                                categories={categories}
-                            />
-                        ))}
+    const handleCloseModal = () => {
+        setEditingTask(null);
+    };
+
+    return (
+        <>
+            <div className="space-y-6">
+                {/* 未完了タスク */}
+                {incompleteTasks.length > 0 && (
+                    <div>
+                        <h2 className="text-sm font-medium text-slate-500 mb-3">
+                            未完了 ({incompleteTasks.length})
+                        </h2>
+                        <div className="space-y-2">
+                            {incompleteTasks.map((task) => (
+                                <TaskItem
+                                    key={task.id}
+                                    task={task}
+                                    onToggle={onToggle}
+                                    onDelete={onDelete}
+                                    onEdit={handleEdit}
+                                    categories={categories}
+                                />
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
+
+                {/* 完了タスク */}
+                {completedTasks.length > 0 && (
+                    <div>
+                        <h2 className="text-sm font-medium text-slate-500 mb-3">
+                            完了 ({completedTasks.length})
+                        </h2>
+                        <div className="space-y-2">
+                            {completedTasks.map((task) => (
+                                <TaskItem
+                                    key={task.id}
+                                    task={task}
+                                    onToggle={onToggle}
+                                    onDelete={onDelete}
+                                    onEdit={handleEdit}
+                                    categories={categories}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {/* 編集モーダル */}
+            {editingTask && (
+                <TaskEditModal
+                    task={editingTask}
+                    categories={categories}
+                    onSave={onUpdate}
+                    onClose={handleCloseModal}
+                />
             )}
-        </div>
+        </>
     );
 };
