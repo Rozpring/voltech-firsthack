@@ -6,6 +6,7 @@ import { ArrowLeft, Plus, Trash2, Edit2, Check, X } from 'lucide-react';
 import { Button } from '../components/common/Button';
 import { getCategories, createCategory, updateCategory, deleteCategory } from '../services/categoryApi';
 import type { CategoryResponse, CategoryCreateRequest, CategoryUpdateRequest } from '../types/api';
+import PagesBackground from '../assets/pages-background.jpg';
 
 const PRESET_COLORS = [
     '#6366f1', // インディゴ
@@ -117,7 +118,16 @@ export const CategoriesPage: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50">
+        <div
+            className="min-h-screen"
+            style={{
+                backgroundImage: `url(${PagesBackground})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                backgroundAttachment: 'fixed',
+            }}
+        >
             {/* ヘッダー */}
             <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
                 <div className="max-w-4xl mx-auto px-4 py-4 flex items-center gap-4">

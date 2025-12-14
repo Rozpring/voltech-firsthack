@@ -4,7 +4,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from typing import Any
 
 from app.db.session import get_db
-from app.schemas.user import UserCreate, UserResponse
+from app.schemas.user import UserCreate, UserResponse, UserUpdate
 from app.schemas.token import Token
 from app.models.user import User
 from app.core.security import get_password_hash, create_access_token, verify_password, get_current_user
@@ -55,4 +55,24 @@ def login_for_access_token(
 # 自分の情報取得
 @router.get("/me", response_model=UserResponse)
 def read_users_me(current_user: User = Depends(get_current_user)):
+    return current_user
+
+# プロフィール更新
+@router.put("/me", response_model=UserResponse)
+def update_profile(
+    *,
+    db: Session = Depends(get_db),
+    user_in: UserUpdate,
+    current_user: User = Depends(get_current_user)
+):
+    # 更新データを取得
+    update_data = user_in.model_dump(exclude_unset=True)
+    
+    # 各フィールドを更新
+    for key, value in update_data.items():
+        setattr(current_user, key, value)
+    
+    db.add(current_user)
+    db.commit()
+    db.refresh(current_user)
     return current_user
