@@ -5,6 +5,10 @@ from sqlmodel import SQLModel # 追加
 from app.db.session import engine # 追加
 from app.api.v1.api import api_router # 追加: ルーターの集約ファイル
 from app.core.config import settings # 設定ファイルがある場合
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from dotenv import load_dotenv
+import os
 
 # DBテーブルを自動作成する設定
 @asynccontextmanager
