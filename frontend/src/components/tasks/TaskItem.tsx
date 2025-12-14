@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, Trash2, Clock, AlertCircle, Tag, Pencil } from 'lucide-react';
+import { Trash2, Clock, AlertCircle, Tag, Pencil } from 'lucide-react';
 import type { Task } from '../../types';
 import type { CategoryResponse } from '../../types/api';
 
