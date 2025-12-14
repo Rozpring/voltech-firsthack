@@ -24,4 +24,6 @@ class Task(Base):
     owner_id = Column(Integer, ForeignKey("users.id"))
     owner = relationship("User", back_populates="tasks")
     
-    # カテゴリとの関連付け（省略）
+    # カテゴリとの関連付け
+    category_id = Column(Integer, ForeignKey("categories.id"), nullable=True)
+    category = relationship("Category", back_populates="tasks")
