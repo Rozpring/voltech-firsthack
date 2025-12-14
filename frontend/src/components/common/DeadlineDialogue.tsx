@@ -3,6 +3,7 @@
 import React, { useMemo } from 'react';
 import { useTasks } from '../../context/TaskContext';
 import type { Task } from '../../types';
+import CharacterImage from '../../assets/character.jpg';
 
 // セリフデータ
 const DIALOGUES = {
@@ -134,7 +135,11 @@ export const DeadlineDialogue: React.FC = () => {
     return (
         <div className={`rounded-lg border-2 p-4 ${bgColor}`}>
             <div className="flex items-start gap-3">
-                <span className="text-3xl">🐭</span>
+                <img
+                    src={CharacterImage}
+                    alt="キャラクター"
+                    className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+                />
                 <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                         <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${labelBg}`}>
