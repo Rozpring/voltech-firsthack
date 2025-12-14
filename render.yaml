@@ -20,7 +20,6 @@ services:
   - type: web
     name: taskmaster-frontend
     env: static
-    plan: free
     buildCommand: npm install && npm run build
     staticPublishPath: dist
     rootDir: frontend
