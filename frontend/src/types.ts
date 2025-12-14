@@ -22,6 +22,8 @@ export interface Task {
 export interface User {
   id: number;
   username: string;
+  display_name?: string | null;
+  avatar_url?: string | null;
 }
 
 // Legacy types for backward compatibility (can be removed later)

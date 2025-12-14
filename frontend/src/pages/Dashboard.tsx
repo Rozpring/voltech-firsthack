@@ -13,6 +13,7 @@ import { getCategories } from '../services/categoryApi';
 import { findNearbyLocation } from '../services/locationApi';
 import { useGeolocation } from '../hooks/useGeolocation';
 import type { CategoryResponse, NearbyLocationResponse } from '../types/api';
+import DashboardBackground from '../assets/dashboard-background.jpg';
 
 export const Dashboard: React.FC = () => {
     const { user, logout } = useAuth();
@@ -95,13 +96,22 @@ export const Dashboard: React.FC = () => {
     }, [nearbyLocation, categories]);
 
     return (
-        <div className="min-h-screen bg-slate-50">
+        <div
+            className="min-h-screen"
+            style={{
+                backgroundImage: `url(${DashboardBackground})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                backgroundAttachment: 'fixed',
+            }}
+        >
             {/* ヘッダー */}
             <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
                 <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <CheckSquare className="w-6 h-6 text-indigo-600" />
-                        <h2 className="text-xl font-bold text-slate-900">Toきょうでぃずにーらんdo</h2>
+                        <h2 className="text-xl font-bold text-slate-900">ToｷｮｳﾃﾞｨｽﾞﾆｰﾗﾝDo</h2>
                     </div>
                     <div className="flex items-center gap-4">
                         <Link

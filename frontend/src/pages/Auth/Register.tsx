@@ -3,14 +3,23 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/common/Button';
 import LogoSource from '../../assets/ミッキー.jpg';
+import LeftLogo from '../../assets/left-logo.png';
+import BackgroundImage from '../../assets/login-background.png';
 //import { CheckSquare } from 'lucide-react';
 
 const LogoImage: React.FC = () => (
-  <img 
-    src={LogoSource}
-    alt="アプリケーションロゴ" 
-    className="h-40 w-auto" 
-  />
+    <div className="flex items-center justify-start gap-1">
+        <img
+            src={LeftLogo}
+            alt="吹き出し"
+            className="h-80 w-auto"
+        />
+        <img
+            src={LogoSource}
+            alt="アプリケーションロゴ"
+            className="h-64 w-auto"
+        />
+    </div>
 );
 
 
@@ -49,10 +58,18 @@ export const Register: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div
+            className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8"
+            style={{
+                backgroundImage: `url(${BackgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+            }}
+        >
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                <div className="flex justify-center">
-                    <LogoImage /> 
+                <div className="flex justify-start ml-[-200px]">
+                    <LogoImage />
                 </div>
                 <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-slate-900">
                     新規登録
