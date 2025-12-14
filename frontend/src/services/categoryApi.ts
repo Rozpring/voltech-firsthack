@@ -39,3 +39,10 @@ export const updateCategory = async (
 export const deleteCategory = async (categoryId: number): Promise<void> => {
     return apiClient.delete<void>(`/api/v1/categories/${categoryId}`);
 };
+
+/**
+ * Initialize default categories (家事, 仕事, 課題)
+ */
+export const initDefaultCategories = async (): Promise<CategoryResponse[]> => {
+    return apiClient.post<CategoryResponse[]>('/api/v1/categories/init');
+};

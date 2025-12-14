@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { Button } from '../common/Button';
-import type { TaskCreateRequest } from '../../types/api';
+import type { TaskCreateRequest, CategoryResponse } from '../../types/api';
 
 interface TaskFormProps {
     onSubmit: (taskData: TaskCreateRequest) => Promise<void>;
+    categories?: CategoryResponse[];
 }
 
-export const TaskForm: React.FC<TaskFormProps> = ({ onSubmit }) => {
+export const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, categories = [] }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [priority, setPriority] = useState<string>('medium');
     const [deadline, setDeadline] = useState('');
+    const [categoryId, setCategoryId] = useState<string>('');
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -26,12 +28,14 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onSubmit }) => {
                 description: description.trim() || undefined,
                 priority,
                 deadline: deadline || undefined,
+                category_id: categoryId ? Number(categoryId) : undefined,
             });
             // フォームをリセット
             setTitle('');
             setDescription('');
             setPriority('medium');
             setDeadline('');
+            setCategoryId('');
             setIsExpanded(false);
         } catch (error) {
             console.error('Failed to create task:', error);
@@ -107,6 +111,25 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onSubmit }) => {
                     </div>
                 </div>
 
+                {/* カテゴリ */}
+                <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
+                        カテゴリ
+                    </label>
+                    <select
+                        value={categoryId}
+                        onChange={(e) => setCategoryId(e.target.value)}
+                        className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                        <option value="">カテゴリなし</option>
+                        {categories.map((category) => (
+                            <option key={category.id} value={category.id}>
+                                {category.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
                 {/* ボタン */}
                 <div className="flex justify-end gap-2">
                     <Button
@@ -116,6 +139,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onSubmit }) => {
                             setIsExpanded(false);
                             setTitle('');
                             setDescription('');
+                            setCategoryId('');
                         }}
                     >
                         キャンセル

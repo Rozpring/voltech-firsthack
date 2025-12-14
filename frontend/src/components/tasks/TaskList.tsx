@@ -1,6 +1,7 @@
 import React from 'react';
 import { TaskItem } from './TaskItem';
 import type { Task } from '../../types';
+import type { CategoryResponse } from '../../types/api';
 import { Loader2, ListTodo } from 'lucide-react';
 
 interface TaskListProps {
@@ -9,6 +10,7 @@ interface TaskListProps {
     error: string | null;
     onToggle: (taskId: number, isCompleted: boolean) => void;
     onDelete: (taskId: number) => void;
+    categories?: CategoryResponse[];
 }
 
 export const TaskList: React.FC<TaskListProps> = ({
@@ -17,6 +19,7 @@ export const TaskList: React.FC<TaskListProps> = ({
     error,
     onToggle,
     onDelete,
+    categories = [],
 }) => {
     if (isLoading) {
         return (
@@ -64,6 +67,7 @@ export const TaskList: React.FC<TaskListProps> = ({
                                 task={task}
                                 onToggle={onToggle}
                                 onDelete={onDelete}
+                                categories={categories}
                             />
                         ))}
                     </div>
@@ -83,6 +87,7 @@ export const TaskList: React.FC<TaskListProps> = ({
                                 task={task}
                                 onToggle={onToggle}
                                 onDelete={onDelete}
+                                categories={categories}
                             />
                         ))}
                     </div>

@@ -6,6 +6,7 @@ import { Login } from './pages/Auth/Login';
 import { Register } from './pages/Auth/Register';
 import { Dashboard } from './pages/Dashboard';
 import { Profile } from './pages/Profile';
+import { CategoriesPage } from './pages/CategoriesPage';
 import { Loader2 } from 'lucide-react';
 
 // 認証が必要なルートを保護するコンポーネント
@@ -72,6 +73,24 @@ const AppRoutes: React.FC = () => {
             <TaskProvider>
               <Dashboard />
             </TaskProvider>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <TaskProvider>
+              <Dashboard />
+            </TaskProvider>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/categories"
+        element={
+          <ProtectedRoute>
+            <CategoriesPage />
           </ProtectedRoute>
         }
       />

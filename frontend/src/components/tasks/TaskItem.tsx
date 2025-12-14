@@ -1,14 +1,16 @@
 import React from 'react';
-import { Check, Trash2, Clock, AlertCircle } from 'lucide-react';
+import { Check, Trash2, Clock, AlertCircle, Tag } from 'lucide-react';
 import type { Task } from '../../types';
+import type { CategoryResponse } from '../../types/api';
 
 interface TaskItemProps {
     task: Task;
     onToggle: (taskId: number, isCompleted: boolean) => void;
     onDelete: (taskId: number) => void;
+    categories?: CategoryResponse[];
 }
 
-export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete }) => {
+export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete, categories = [] }) => {
     const isOverdue = task.deadline && !task.is_completed && new Date(task.deadline) < new Date();
 
     const priorityColors = {
@@ -33,6 +35,11 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete }) 
         });
     };
 
+    // カテゴリを取得
+    const category = task.category_id
+        ? categories.find(c => c.id === task.category_id)
+        : null;
+
     return (
         <div
             className={`group bg-white rounded-lg border p-4 transition-all hover:shadow-md ${task.is_completed ? 'opacity-60 border-slate-200' : 'border-slate-200'
@@ -43,8 +50,8 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete }) 
                 <button
                     onClick={() => onToggle(task.id, !task.is_completed)}
                     className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${task.is_completed
-                            ? 'bg-indigo-600 border-indigo-600 text-white'
-                            : 'border-slate-300 hover:border-indigo-400'
+                        ? 'bg-indigo-600 border-indigo-600 text-white'
+                        : 'border-slate-300 hover:border-indigo-400'
                         }`}
                 >
                     {task.is_completed && <Check className="w-4 h-4" />}
@@ -70,6 +77,21 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete }) 
                         >
                             {priorityLabels[task.priority as keyof typeof priorityLabels] || '中'}
                         </span>
+
+                        {/* カテゴリバッジ */}
+                        {category && (
+                            <span
+                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium border"
+                                style={{
+                                    backgroundColor: `${category.color}20`,
+                                    color: category.color,
+                                    borderColor: `${category.color}40`,
+                                }}
+                            >
+                                <Tag className="w-3 h-3" />
+                                {category.name}
+                            </span>
+                        )}
 
                         {/* 期限 */}
                         {task.deadline && (

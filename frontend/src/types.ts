@@ -15,6 +15,7 @@ export interface Task {
   deadline?: string; // ISO datetime string
   created_at: string;
   owner_id: number;
+  category_id?: number | null;
 }
 
 // User interface matching backend schema
