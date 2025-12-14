@@ -1,0 +1,30 @@
+# Render一括デプロイ設定
+
+services:
+  # バックエンド (FastAPI)
+  - type: web
+    name: taskmaster-backend
+    env: python
+    region: singapore  # 日本から近いリージョン
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    rootDir: backend
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FRONTEND_URL
+        sync: false  # デプロイ後に設定
+
+  # フロントエンド (React/Vite)
+  - type: web
+    name: taskmaster-frontend
+    env: static
+    region: singapore
+    plan: free
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    rootDir: frontend
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false  # デプロイ後にバックエンドURLを設定
