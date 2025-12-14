@@ -6,7 +6,7 @@ import { useTasks } from '../context/TaskContext';
 import { useAuth } from '../context/AuthContext';
 import { TaskList } from '../components/tasks/TaskList';
 import { TaskForm } from '../components/tasks/TaskForm';
-import { MoodIndicator } from '../components/common/MoodIndicator';
+import { DeadlineDialogue } from '../components/common/DeadlineDialogue';
 import { LogOut, CheckSquare, User, Tag, MapPin, Navigation, X } from 'lucide-react';
 import { Button } from '../components/common/Button';
 import { getCategories } from '../services/categoryApi';
@@ -16,7 +16,7 @@ import type { CategoryResponse, NearbyLocationResponse } from '../types/api';
 
 export const Dashboard: React.FC = () => {
     const { user, logout } = useAuth();
-    const { tasks, isLoading, error, createTask, toggleTaskCompletion, deleteTask } = useTasks();
+    const { tasks, isLoading, error, createTask, updateTask, toggleTaskCompletion, deleteTask } = useTasks();
     const [categories, setCategories] = useState<CategoryResponse[]>([]);
     const [nearbyLocation, setNearbyLocation] = useState<NearbyLocationResponse | null>(null);
     const [locationFilterActive, setLocationFilterActive] = useState(false);
@@ -205,8 +205,8 @@ export const Dashboard: React.FC = () => {
                         )}
                     </div>
 
-                    {/* 進捗インジケーター */}
-                    <MoodIndicator />
+                    {/* 期限に関するセリフ */}
+                    <DeadlineDialogue />
 
                     {/* タスク作成フォーム */}
                     <TaskForm onSubmit={createTask} categories={categories} />
@@ -218,6 +218,7 @@ export const Dashboard: React.FC = () => {
                         error={error}
                         onToggle={toggleTaskCompletion}
                         onDelete={deleteTask}
+                        onUpdate={updateTask}
                         categories={categories}
                     />
                 </div>
