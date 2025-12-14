@@ -2,17 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/common/Button';
+import { CustomPasswordInput } from '../../components/common/CustomPasswordInput';
 import LogoSource from '../../assets/ミッキー.jpg';
+import LeftLogo from '../../assets/left-logo.png';
+import BackgroundImage from '../../assets/login-background.png';
 //import { CheckSquare } from 'lucide-react';
 
 const REMEMBER_KEY = 'tdl_remember_credentials';
 
 const LogoImage: React.FC = () => (
-  <img
-    src={LogoSource}
-    alt="アプリケーションロゴ"
-    className="h-40 w-auto"
-  />
+  <div className="flex items-center justify-start gap-1">
+    <img
+      src={LeftLogo}
+      alt="吹き出し"
+      className="h-80 w-auto"
+    />
+    <img
+      src={LogoSource}
+      alt="アプリケーションロゴ"
+      className="h-64 w-auto"
+    />
+  </div>
 );
 
 export const Login: React.FC = () => {
@@ -62,9 +72,17 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div
+      className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8"
+      style={{
+        backgroundImage: `url(${BackgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center">
+        <div className="flex justify-start ml-[-200px]">
           <LogoImage />
         </div>
         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-slate-900">
@@ -75,7 +93,7 @@ export const Login: React.FC = () => {
         </p>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+      <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
@@ -100,12 +118,11 @@ export const Login: React.FC = () => {
             <div>
               <label className="block text-sm font-medium text-slate-700">パスワード</label>
               <div className="mt-1">
-                <input
-                  type="password"
+                <CustomPasswordInput
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  className="bg-white shadow-sm sm:text-sm"
                   placeholder="パスワードを入力"
                 />
               </div>

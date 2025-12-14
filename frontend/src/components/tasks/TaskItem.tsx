@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, Trash2, Clock, AlertCircle, Tag } from 'lucide-react';
+import { Check, Trash2, Clock, AlertCircle, Tag, Pencil } from 'lucide-react';
 import type { Task } from '../../types';
 import type { CategoryResponse } from '../../types/api';
 
@@ -7,10 +7,11 @@ interface TaskItemProps {
     task: Task;
     onToggle: (taskId: number, isCompleted: boolean) => void;
     onDelete: (taskId: number) => void;
+    onEdit: (task: Task) => void;
     categories?: CategoryResponse[];
 }
 
-export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete, categories = [] }) => {
+export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete, onEdit, categories = [] }) => {
     const isOverdue = task.deadline && !task.is_completed && new Date(task.deadline) < new Date();
 
     const priorityColors = {
@@ -49,12 +50,16 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete, ca
                 {/* チェックボックス */}
                 <button
                     onClick={() => onToggle(task.id, !task.is_completed)}
-                    className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${task.is_completed
-                        ? 'bg-indigo-600 border-indigo-600 text-white'
-                        : 'border-slate-300 hover:border-indigo-400'
+                    className={`flex-shrink-0 w-6 h-6 rounded border-2 flex items-center justify-center transition-all bg-white ${task.is_completed
+                        ? 'border-green-500'
+                        : 'border-slate-400 hover:border-indigo-500'
                         }`}
                 >
-                    {task.is_completed && <Check className="w-4 h-4" />}
+                    {task.is_completed && (
+                        <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                    )}
                 </button>
 
                 {/* タスク内容 */}
@@ -110,13 +115,25 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete, ca
                     </div>
                 </div>
 
-                {/* 削除ボタン */}
-                <button
-                    onClick={() => onDelete(task.id)}
-                    className="flex-shrink-0 p-1 text-slate-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                    <Trash2 className="w-4 h-4" />
-                </button>
+                {/* アクションボタン */}
+                <div className="flex-shrink-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    {/* 編集ボタン */}
+                    <button
+                        onClick={() => onEdit(task)}
+                        className="p-1 text-slate-400 hover:text-indigo-600 transition-colors"
+                        title="編集"
+                    >
+                        <Pencil className="w-4 h-4" />
+                    </button>
+                    {/* 削除ボタン */}
+                    <button
+                        onClick={() => onDelete(task.id)}
+                        className="p-1 text-slate-400 hover:text-red-600 transition-colors"
+                        title="削除"
+                    >
+                        <Trash2 className="w-4 h-4" />
+                    </button>
+                </div>
             </div>
         </div>
     );

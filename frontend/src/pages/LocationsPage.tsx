@@ -8,6 +8,7 @@ import { useGeolocation } from '../hooks/useGeolocation';
 import { getLocations, createLocation, updateLocation, deleteLocation } from '../services/locationApi';
 import { getCategories } from '../services/categoryApi';
 import type { LocationResponse, LocationCreateRequest, CategoryResponse } from '../types/api';
+import PagesBackground from '../assets/pages-background.jpg';
 
 export const LocationsPage: React.FC = () => {
     const [locations, setLocations] = useState<LocationResponse[]>([]);
@@ -167,7 +168,16 @@ export const LocationsPage: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-slate-50">
+        <div
+            className="min-h-screen"
+            style={{
+                backgroundImage: `url(${PagesBackground})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                backgroundAttachment: 'fixed',
+            }}
+        >
             {/* ヘッダー */}
             <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
                 <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
